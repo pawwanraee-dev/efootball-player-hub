@@ -1,0 +1,124 @@
+[
+  {
+    "name": "Steven Gerrard",
+    "ovr": 106,
+    "pos": "CMF",
+    "type": "Card",
+    "club": "Not added",
+    "style": "Not added",
+    "image": "Steven%20Gerrard%20Neon%20Football%20Card%20(1).png",
+    "stats": {}
+  },
+  {
+    "name": "Lionel Messi",
+    "ovr": 103,
+    "pos": "RWF",
+    "type": "Big Time",
+    "club": "Argentina",
+    "style": "Creative Playmaker",
+    "stats": {
+      "Speed": 82,
+      "Shooting": 95,
+      "Passing": 94,
+      "Dribbling": 99,
+      "Defending": 38,
+      "Physical": 68
+    }
+  },
+  {
+    "name": "Cristiano Ronaldo",
+    "ovr": 102,
+    "pos": "CF",
+    "type": "Epic",
+    "club": "Portugal",
+    "style": "Goal Poacher",
+    "stats": {
+      "Speed": 88,
+      "Shooting": 98,
+      "Passing": 82,
+      "Dribbling": 89,
+      "Defending": 42,
+      "Physical": 92
+    }
+  },
+  {
+    "name": "Kylian Mbappé",
+    "ovr": 101,
+    "pos": "CF",
+    "type": "Show Time",
+    "club": "France",
+    "style": "Goal Poacher",
+    "stats": {
+      "Speed": 99,
+      "Shooting": 91,
+      "Passing": 83,
+      "Dribbling": 96,
+      "Defending": 38,
+      "Physical": 82
+    }
+  },
+  {
+    "name": "Neymar Jr",
+    "ovr": 100,
+    "pos": "LWF",
+    "type": "Epic",
+    "club": "Brazil",
+    "style": "Creative Playmaker",
+    "stats": {
+      "Speed": 91,
+      "Shooting": 88,
+      "Passing": 90,
+      "Dribbling": 98,
+      "Defending": 40,
+      "Physical": 72
+    }
+  },
+  {
+    "name": "Jude Bellingham",
+    "ovr": 100,
+    "pos": "AMF",
+    "type": "POTW",
+    "club": "England",
+    "style": "Hole Player",
+    "stats": {
+      "Speed": 86,
+      "Shooting": 87,
+      "Passing": 88,
+      "Dribbling": 89,
+      "Defending": 78,
+      "Physical": 86
+    }
+  },
+  {
+    "name": "Erling Haaland",
+    "ovr": 101,
+    "pos": "CF",
+    "type": "Highlight",
+    "club": "Norway",
+    "style": "Goal Poacher",
+    "stats": {
+      "Speed": 93,
+      "Shooting": 97,
+      "Passing": 75,
+      "Dribbling": 83,
+      "Defending": 40,
+      "Physical": 95
+    }
+  },
+  {
+    "name": "Kevin De Bruyne",
+    "ovr": 100,
+    "pos": "AMF",
+    "type": "POTW",
+    "club": "Belgium",
+    "style": "Creative Playmaker",
+    "stats": {
+      "Speed": 78,
+      "Shooting": 88,
+      "Passing": 99,
+      "Dribbling": 89,
+      "Defending": 62,
+      "Physical": 78
+    }
+  }
+]
