@@ -1,63 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080d18">
-<title>eFootball Player Hub</title>
-<style>
-:root{--bg:#080d18;--panel:#111a2b;--panel2:#172238;--line:#263650;--text:#f4f7ff;--muted:#9aa9c2;--gold:#f6c85f;--blue:#56a8ff}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1b3152 0,transparent 48%),var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
-header{position:sticky;top:0;z-index:5;background:#080d18eF;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
-.nav{max-width:1200px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-weight:900;letter-spacing:.5px;font-size:20px}.brand span{color:var(--gold)}.nav small{color:var(--muted)}
-main{max-width:1200px;margin:auto;padding:30px 22px 60px}.hero{padding:28px;border:1px solid #314665;border-radius:22px;background:linear-gradient(120deg,#172b48,#101a2c 60%,#19243a);box-shadow:0 18px 50px #0005}.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(28px,5vw,48px);margin:10px 0}.hero p{color:#b6c4d9;max-width:650px;line-height:1.6;margin:0}.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.stat{background:#ffffff0c;border:1px solid #ffffff18;border-radius:12px;padding:10px 15px}.stat b{display:block;font-size:18px}.stat span{font-size:11px;color:var(--muted)}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:30px 0 14px}.section-head h2{margin:0;font-size:22px}.section-head p{color:var(--muted);font-size:13px;margin:5px 0 0}
-.controls{display:grid;grid-template-columns:1fr auto;gap:12px;margin:16px 0}.search{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:white;font-size:15px;outline:none}.search:focus{border-color:var(--blue)}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.filter{border:1px solid var(--line);background:var(--panel);color:#c3cee0;border-radius:999px;padding:9px 14px;cursor:pointer;font-weight:700;font-size:12px}.filter.active,.filter:hover{background:var(--gold);border-color:var(--gold);color:#161616}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.player{border:1px solid var(--line);background:linear-gradient(180deg,#17243a,#101827);border-radius:16px;padding:12px;cursor:pointer;transition:.2s;min-width:0}.player:hover{transform:translateY(-4px);border-color:#6989b8;box-shadow:0 14px 30px #0006}.card-art{height:190px;border-radius:12px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 35%,#7387a7 0,#344965 30%,#18263d 70%);border:1px solid #8293ad55}.card-art:before{content:"";position:absolute;width:116px;height:150px;bottom:-22px;border-radius:60px 60px 12px 12px;background:linear-gradient(145deg,#d7e0ec,#62758e 55%,#29374c);opacity:.7;clip-path:polygon(30% 0,70% 0,100% 30%,83% 100%,17% 100%,0 30%)}.card-art:after{content:"PLAYER IMAGE";position:absolute;bottom:9px;font-size:9px;letter-spacing:2px;color:#ffffffa8;font-weight:800}.card-art.has-image:before,.card-art.has-image:after{display:none}.card-art img{width:100%;height:100%;object-fit:contain;position:absolute;inset:0;background:#0b1322}.rating{position:absolute;top:10px;left:10px;font-size:24px;font-weight:900;color:var(--gold);text-shadow:0 2px 8px #000}.position{position:absolute;top:40px;left:12px;font-size:10px;font-weight:800}.type{position:absolute;top:10px;right:10px;background:#080d18b8;padding:5px 8px;border-radius:6px;font-size:9px;font-weight:800}.player h3{margin:12px 2px 4px;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{color:var(--muted);font-size:11px;margin:0 2px 10px}.tags{display:flex;justify-content:space-between;align-items:center;gap:6px}.tag{font-size:10px;color:#c5d4e9;background:#ffffff0c;padding:5px 7px;border-radius:6px}.view{color:var(--blue);font-size:11px;font-weight:800}
-.empty{display:none;text-align:center;padding:40px;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
-footer{border-top:1px solid var(--line);padding:24px;text-align:center;color:var(--muted);font-size:12px}
-.modal{display:none;position:fixed;inset:0;background:#000b;z-index:10;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modal-box{width:min(540px,100%);background:#111a2b;border:1px solid #405675;border-radius:18px;padding:22px;position:relative}.close{position:absolute;right:14px;top:12px;border:0;background:#ffffff12;color:white;border-radius:8px;padding:7px 10px;cursor:pointer}.modal-box h2{margin:0 40px 5px 0}.modal-sub{color:var(--muted);font-size:13px}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:18px 0}.detail{background:#ffffff0b;border:1px solid var(--line);border-radius:10px;padding:11px}.detail span{display:block;color:var(--muted);font-size:11px}.detail b{font-size:16px}.note{font-size:12px;color:#b5c3d8;line-height:1.5}
-@media(max-width:850px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:620px){main{padding:20px 14px 45px}.nav{padding:13px 15px}.controls{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card-art{height:165px}.hero{padding:22px}.section-head{align-items:start;flex-direction:column}}@media(max-width:360px){.grid{grid-template-columns:1fr 1fr}.card-art{height:145px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d18">
+  <title>eFootball Player Hub</title>
+  <style>
+    :root {
+      --bg: #080d18;
+      --panel: #111a2b;
+      --panel-2: #17243a;
+      --line: #293b57;
+      --text: #f4f7ff;
+      --muted: #9aa9c2;
+      --gold: #f6c85f;
+      --blue: #69b4ff;
+      --green: #74d6a0;
+      --danger: #ff9b9b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: radial-gradient(ellipse at 50% -15%, #1c3458 0, transparent 48%), var(--bg);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+    button, input { font: inherit; }
+    header {
+      position: sticky; top: 0; z-index: 5;
+      background: rgba(8, 13, 24, .92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+    .nav {
+      max-width: 1200px; margin: auto; padding: 16px 22px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand { font-size: 20px; font-weight: 900; letter-spacing: .4px; }
+    .brand span { color: var(--gold); }
+    .nav small { color: var(--muted); letter-spacing: .6px; }
+    main { max-width: 1200px; margin: auto; padding: 30px 22px 58px; }
+    .hero {
+      padding: clamp(22px, 4vw, 36px);
+      border: 1px solid #344b6e; border-radius: 22px;
+      background: linear-gradient(120deg, #1a3152, #101a2c 62%, #1a2942);
+      box-shadow: 0 18px 50px #0005;
+    }
+    .eyebrow {
+      color: var(--gold); font-size: 11px; font-weight: 900;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    h1 { margin: 11px 0; font-size: clamp(30px, 5vw, 50px); line-height: 1.08; }
+    h1 span { color: var(--gold); }
+    .hero p { max-width: 680px; margin: 0; color: #c0cde0; line-height: 1.65; }
+    .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 23px; }
+    .stat {
+      min-width: 95px; padding: 11px 14px; border-radius: 12px;
+      border: 1px solid #ffffff20; background: #ffffff0c;
+    }
+    .stat b { display: block; font-size: 19px; }
+    .stat span { color: var(--muted); font-size: 10px; letter-spacing: .5px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin: 32px 0 14px; }
+    .section-head h2 { margin: 0; font-size: 23px; }
+    .section-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+    .status { color: var(--green); font-size: 12px; }
+    .toolbar { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin: 16px 0 13px; }
+    .search {
+      width: 100%; min-width: 0; padding: 14px 16px; color: white;
+      border: 1px solid var(--line); border-radius: 12px;
+      background: var(--panel); outline: none;
+    }
+    .search:focus { border-color: var(--blue); box-shadow: 0 0 0 3px #69b4ff20; }
+    .sort {
+      padding: 0 13px; color: var(--text); background: var(--panel);
+      border: 1px solid var(--line); border-radius: 12px;
+    }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 19px; }
+    .filter {
+      padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px;
+      color: #cbd7e9; background: var(--panel); cursor: pointer;
+      font-size: 12px; font-weight: 750;
+    }
+    .filter:hover, .filter.active { color: #161616; background: var(--gold); border-color: var(--gold); }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .player {
+      min-width: 0; padding: 11px; cursor: pointer;
+      border: 1px solid var(--line); border-radius: 16px;
+      background: linear-gradient(180deg, #17243a, #101827);
+      transition: transform .18s, border-color .18s, box-shadow .18s;
+    }
+    .player:hover { transform: translateY(-4px); border-color: #7899c5; box-shadow: 0 14px 30px #0006; }
+    .card-art {
+      height: 210px; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid #8293ad55; border-radius: 12px;
+      background: radial-gradient(circle at 50% 35%, #7387a7 0, #344965 32%, #18263d 75%);
+    }
+    .card-art::before {
+      content: ""; position: absolute; width: 116px; height: 150px; bottom: -22px;
+      border-radius: 60px 60px 12px 12px;
+      background: linear-gradient(145deg, #d7e0ec, #62758e 55%, #29374c);
+      opacity: .65; clip-path: polygon(30% 0,70% 0,100% 30%,83% 100%,17% 100%,0 30%);
+    }
+    .card-art::after {
+      content: "IMAGE NOT ADDED"; position: absolute; bottom: 10px;
+      color: #ffffffb8; font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
+    }
+    .card-art.has-image { background: #0b1322; }
+    .card-art.has-image::before, .card-art.has-image::after { display: none; }
+    .card-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .rating { position: absolute; z-index: 1; top: 10px; left: 10px; color: var(--gold); font-size: 25px; font-weight: 950; text-shadow: 0 2px 8px #000; }
+    .position { position: absolute; z-index: 1; top: 40px; left: 12px; font-size: 10px; font-weight: 900; text-shadow: 0 2px 6px #000; }
+    .type { position: absolute; z-index: 1; top: 10px; right: 10px; padding: 5px 8px; border-radius: 6px; background: #080d18d9; font-size: 9px; font-weight: 900; }
+    .player h3 { overflow: hidden; margin: 12px 2px 4px; font-size: 16px; white-space: nowrap; text-overflow: ellipsis; }
+    .meta { overflow: hidden; margin: 0 2px 11px; color: var(--muted); font-size: 11px; white-space: nowrap; text-overflow: ellipsis; }
+    .card-bottom { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+    .tag { padding: 5px 7px; border-radius: 6px; color: #c5d4e9; background: #ffffff0c; font-size: 10px; }
+    .view { color: var(--blue); font-size: 10px; font-weight: 850; white-space: nowrap; }
+    .message {
+      display: none; margin-top: 14px; padding: 18px; text-align: center;
+      border: 1px dashed var(--line); border-radius: 14px; color: var(--muted);
+      line-height: 1.5;
+    }
+    .message.error { display: block; color: var(--danger); }
+    footer { padding: 24px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 12px; }
+    .modal {
+      display: none; position: fixed; inset: 0; z-index: 10; padding: 18px;
+      align-items: center; justify-content: center; background: #000c;
+    }
+    .modal.show { display: flex; }
+    .modal-box {
+      position: relative; width: min(560px, 100%); max-height: 85vh; overflow: auto;
+      padding: 23px; border: 1px solid #405675; border-radius: 18px; background: var(--panel);
+      box-shadow: 0 20px 70px #0009;
+    }
+    .close {
+      position: absolute; top: 13px; right: 13px; padding: 7px 11px;
+      border: 0; border-radius: 8px; color: white; background: #ffffff18; cursor: pointer;
+    }
+    .modal-box h2 { margin: 0 42px 6px 0; }
+    .modal-sub { color: var(--muted); font-size: 13px; }
+    .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin: 18px 0; }
+    .detail { padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: #ffffff0b; }
+    .detail span { display: block; color: var(--muted); font-size: 11px; }
+    .detail b { font-size: 16px; }
+    .note { color: #b5c3d8; font-size: 12px; line-height: 1.55; }
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 650px) {
+      main { padding: 20px 14px 44px; }
+      .nav { padding: 13px 15px; }
+      .nav small { font-size: 9px; }
+      .toolbar { grid-template-columns: 1fr; }
+      .sort { min-height: 42px; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .card-art { height: 175px; }
+      .section-head { align-items: start; flex-direction: column; }
+    }
+    @media (max-width: 370px) { .card-art { height: 145px; } .view { font-size: 9px; } }
+  </style>
 </head>
 <body>
-<header><div class="nav"><div class="brand">eFOOTBALL <span>PLAYER HUB</span></div><small>PLAYER DATABASE • CARD COLLECTION</small></div></header>
-<main>
-<section class="hero">
-<div class="eyebrow">Your eFootball player database</div>
-<h1>Find your next <span style="color:var(--gold)">game changer.</span></h1>
-<p>Explore player cards, ratings and attributes. Steven Gerrard’s uploaded card artwork is now included, alongside seven demo entries while the rest of the real player data is being added.</p>
-<div class="stats"><div class="stat"><b id="totalCount">8</b><span>PLAYERS</span></div><div class="stat"><b>6</b><span>CARD CATEGORIES</span></div><div class="stat"><b>v1.0</b><span>PLAYER HUB</span></div></div>
-</section>
-<div class="section-head"><div><h2>Player collection</h2><p>Search by player name or filter by card type.</p></div></div>
-<div class="controls"><input id="search" class="search" placeholder="🔎  Search players (e.g. Messi, Ronaldo, Mbappé)..." aria-label="Search players"></div>
-<div class="filters" id="filters">
-<button class="filter active" data-type="All">All cards</button><button class="filter" data-type="Epic">Epic</button><button class="filter" data-type="Big Time">Big Time</button><button class="filter" data-type="POTW">POTW</button><button class="filter" data-type="Show Time">Show Time</button><button class="filter" data-type="Highlight">Highlight</button>
-</div>
-<div class="grid" id="players"></div><div class="empty" id="empty">No players found. Try another name or category.</div>
-</main>
-<footer>eFootball Player Hub • Fan-made player database concept. Not affiliated with or endorsed by Konami.</footer>
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalName"><div class="modal-box"><button class="close" id="close">✕</button><h2 id="modalName">Player</h2><div class="modal-sub" id="modalSub"></div><div class="detail-grid" id="detailGrid"></div><p class="note">Gerrard’s card image, 106 OVR and CMF position are from the card you uploaded. Other player attributes have not been added yet.</p></div></div>
-<script>
-let players=[];
-let active="All";
-const root=document.getElementById("players"),search=document.getElementById("search"),empty=document.getElementById("empty");
-function render(){const q=search.value.toLowerCase().trim();const list=players.filter(p=>(active==="All"||p.type===active)&&(p.name.toLowerCase().includes(q)||p.club.toLowerCase().includes(q)||p.pos.toLowerCase().includes(q)));root.innerHTML=list.map((p)=>\`<article class="player" data-name="${p.name}"><div class="card-art ${p.image?"has-image":""}">${p.image?\`<img src="${p.image}" alt="${p.name} eFootball card">\`:\`<div class="rating">${p.ovr}</div><div class="position">${p.pos}</div><div class="type">${p.type.toUpperCase()}</div>\`}</div><h3>${p.name}</h3><p class="meta">${p.club} • ${p.style}</p><div class="tags"><span class="tag">${p.ovr} OVR • ${p.pos}</span><span class="view">VIEW DETAILS →</span></div></article>\`).join("");document.getElementById("totalCount").textContent=players.length;empty.style.display=list.length?"none":"block";document.querySelectorAll(".player").forEach(el=>el.addEventListener("click",()=>openPlayer(players.find(p=>p.name===el.dataset.name))));}
-function openPlayer(p){document.getElementById("modalName").textContent=p.name;document.getElementById("modalSub").textContent=\`${p.ovr} OVR • ${p.pos} • ${p.type}\`;document.getElementById("detailGrid").innerHTML=Object.entries(p.stats).length?Object.entries(p.stats).map(([k,v])=>\`<div class="detail"><span>${k}</span><b>${v}</b></div>\`).join(""):\`<div class="detail" style="grid-column:1/-1"><span>Player attributes</span><b>Not added yet</b></div>\`;document.getElementById("modal").classList.add("show")}
-document.getElementById("close").onclick=()=>document.getElementById("modal").classList.remove("show");document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("show")});search.addEventListener("input",render);document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{active=b.dataset.type;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));async function loadPlayers(){
-  try{
-    const response=await fetch("./players.json",{cache:"no-store"});
-    if(!response.ok) throw new Error("Could not load players.json");
-    players=await response.json();
-    render();
-  }catch(error){
-    root.innerHTML='<p class="note">Player data could not be loaded. Please check that players.json is uploaded beside index.html.</p>';
-    document.getElementById("totalCount").textContent="0";
-    empty.style.display="none";
-    console.error(error);
-  }
-}
-loadPlayers();
-</script>
+  <header>
+    <div class="nav">
+      <div class="brand">eFOOTBALL <span>PLAYER HUB</span></div>
+      <small>PLAYER DATABASE • CARD COLLECTION</small>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Your eFootball player database</div>
+      <h1>Find your next <span>game changer.</span></h1>
+      <p>Explore player cards, ratings and attributes. Search the collection, filter by card type and open a player to view available details. Player data is loaded from the separate players.json file.</p>
+      <div class="stats">
+        <div class="stat"><b id="totalCount">—</b><span>PLAYERS LOADED</span></div>
+        <div class="stat"><b>6</b><span>CARD CATEGORIES</span></div>
+        <div class="stat"><b>v1.1</b><span>PLAYER HUB</span></div>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <div><h2>Player collection</h2><p>Search by player name, country or position.</p></div>
+      <div class="status" id="loadStatus" aria-live="polite">Loading player data…</div>
+    </div>
+
+    <div class="toolbar">
+      <input id="search" class="search" type="search" placeholder="🔎  Search Messi, Ronaldo, CMF..." aria-label="Search players">
+      <select id="sort" class="sort" aria-label="Sort players">
+        <option value="default">Sort: Default</option>
+        <option value="rating">Highest rating</option>
+        <option value="name">Name A–Z</option>
+      </select>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter active" data-type="All">All cards</button>
+      <button class="filter" data-type="Epic">Epic</button>
+      <button class="filter" data-type="Big Time">Big Time</button>
+      <button class="filter" data-type="POTW">POTW</button>
+      <button class="filter" data-type="Show Time">Show Time</button>
+      <button class="filter" data-type="Highlight">Highlight</button>
+      <button class="filter" data-type="Card">Other</button>
+    </div>
+
+    <section class="grid" id="players" aria-live="polite"></section>
+    <div class="message" id="message"></div>
+  </main>
+
+  <footer>eFootball Player Hub • Fan-made database concept. Not affiliated with or endorsed by Konami.</footer>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+    <div class="modal-box">
+      <button class="close" id="close" aria-label="Close details">✕</button>
+      <h2 id="modalName">Player</h2>
+      <div class="modal-sub" id="modalSub"></div>
+      <div class="detail-grid" id="detailGrid"></div>
+      <p class="note" id="modalNote">Only details present in the data file are shown. Demo values should not be treated as official in-game data.</p>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    let players = [];
+    let activeType = "All";
+
+    const playerGrid = document.getElementById("players");
+    const searchInput = document.getElementById("search");
+    const sortSelect = document.getElementById("sort");
+    const message = document.getElementById("message");
+    const loadStatus = document.getElementById("loadStatus");
+
+    function safeText(value, fallback = "Not added") {
+      return value === undefined || value === null || value === "" ? fallback : String(value);
+    }
+
+    function renderPlayers() {
+      const query = searchInput.value.toLowerCase().trim();
+
+      let filtered = players.filter(player => {
+        const matchesType = activeType === "All" || safeText(player.type) === activeType;
+        const searchable = [
+          player.name, player.club, player.pos, player.type, player.style
+        ].map(value => safeText(value, "").toLowerCase()).join(" ");
+        return matchesType && searchable.includes(query);
+      });
+
+      if (sortSelect.value === "rating") {
+        filtered.sort((a, b) => Number(b.ovr || 0) - Number(a.ovr || 0));
+      } else if (sortSelect.value === "name") {
+        filtered.sort((a, b) => safeText(a.name).localeCompare(safeText(b.name)));
+      }
+
+      playerGrid.innerHTML = "";
+
+      filtered.forEach(player => {
+        const article = document.createElement("article");
+        article.className = "player";
+        article.tabIndex = 0;
+        article.setAttribute("role", "button");
+        article.setAttribute("aria-label", "View " + safeText(player.name) + " details");
+
+        const art = document.createElement("div");
+        art.className = "card-art";
+
+        if (player.image) {
+          art.classList.add("has-image");
+          const img = document.createElement("img");
+          img.src = player.image;
+          img.alt = safeText(player.name) + " card artwork";
+          img.onerror = () => {
+            art.classList.remove("has-image");
+            img.remove();
+          };
+          art.appendChild(img);
+        } else {
+          const rating = document.createElement("div");
+          rating.className = "rating";
+          rating.textContent = safeText(player.ovr, "—");
+          const position = document.createElement("div");
+          position.className = "position";
+          position.textContent = safeText(player.pos);
+          const type = document.createElement("div");
+          type.className = "type";
+          type.textContent = safeText(player.type).toUpperCase();
+          art.append(rating, position, type);
+        }
+
+        const name = document.createElement("h3");
+        name.textContent = safeText(player.name);
+        const meta = document.createElement("p");
+        meta.className = "meta";
+        meta.textContent = safeText(player.club) + " • " + safeText(player.style);
+
+        const bottom = document.createElement("div");
+        bottom.className = "card-bottom";
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = safeText(player.ovr, "—") + " OVR • " + safeText(player.pos);
+        const view = document.createElement("span");
+        view.className = "view";
+        view.textContent = "VIEW DETAILS →";
+        bottom.append(tag, view);
+
+        article.append(art, name, meta, bottom);
+        article.addEventListener("click", () => openPlayer(player));
+        article.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openPlayer(player);
+          }
+        });
+        playerGrid.appendChild(article);
+      });
+
+      document.getElementById("totalCount").textContent = players.length;
+      message.className = "message";
+      if (players.length === 0) {
+        message.textContent = "No player data was found in players.json.";
+        message.style.display = "block";
+      } else if (filtered.length === 0) {
+        message.textContent = "No players match your search. Try another name or card category.";
+        message.style.display = "block";
+      } else {
+        message.style.display = "none";
+      }
+    }
+
+    function openPlayer(player) {
+      document.getElementById("modalName").textContent = safeText(player.name);
+      document.getElementById("modalSub").textContent =
+        safeText(player.ovr, "—") + " OVR • " +
+        safeText(player.pos) + " • " +
+        safeText(player.type) + " • " +
+        safeText(player.club);
+
+      const detailGrid = document.getElementById("detailGrid");
+      detailGrid.innerHTML = "";
+
+      const stats = player.stats && typeof player.stats === "object" ? player.stats : {};
+      const details = Object.entries(stats);
+
+      if (details.length) {
+        details.forEach(([label, value]) => {
+          const item = document.createElement("div");
+          item.className = "detail";
+          const title = document.createElement("span");
+          title.textContent = label;
+          const result = document.createElement("b");
+          result.textContent = safeText(value);
+          item.append(title, result);
+          detailGrid.appendChild(item);
+        });
+      } else {
+        const item = document.createElement("div");
+        item.className = "detail";
+        item.style.gridColumn = "1 / -1";
+        item.innerHTML = "<span>Player attributes</span><b>Not added yet</b>";
+        detailGrid.appendChild(item);
+      }
+
+      document.getElementById("modal").classList.add("show");
+    }
+
+    function closeModal() {
+      document.getElementById("modal").classList.remove("show");
+    }
+
+    document.getElementById("close").addEventListener("click", closeModal);
+    document.getElementById("modal").addEventListener("click", event => {
+      if (event.target.id === "modal") closeModal();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeModal();
+    });
+
+    searchInput.addEventListener("input", renderPlayers);
+    sortSelect.addEventListener("change", renderPlayers);
+
+    document.querySelectorAll(".filter").forEach(button => {
+      button.addEventListener("click", () => {
+        activeType = button.dataset.type;
+        document.querySelectorAll(".filter").forEach(item => {
+          item.classList.toggle("active", item === button);
+        });
+        renderPlayers();
+      });
+    });
+
+    async function loadPlayers() {
+      try {
+        const response = await fetch("./players.json", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("players.json returned HTTP " + response.status);
+        }
+
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+          throw new Error("players.json must contain a JSON array.");
+        }
+
+        players = data;
+        loadStatus.textContent = "Player data loaded";
+        renderPlayers();
+      } catch (error) {
+        console.error("Player data loading error:", error);
+        loadStatus.textContent = "Could not load player data";
+        playerGrid.innerHTML = "";
+        document.getElementById("totalCount").textContent = "0";
+        message.className = "message error";
+        message.style.display = "block";
+        message.textContent =
+          "Player data could not be loaded. Check that players.json is in the same main folder as index.html, then refresh the website.";
+      }
+    }
+
+    loadPlayers();
+  </script>
 </body>
 </html>
