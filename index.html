@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eFootball Player Hub</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #0b1020;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      padding: 25px 6%;
+      background: #121a2d;
+      border-bottom: 1px solid #27334c;
+    }
+    header h1 { margin: 0; color: #55d6ff; }
+    header p { color: #aab6cc; }
+    main { padding: 30px 6%; }
+    .search {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    input, select {
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #34425e;
+      background: #151f34;
+      color: white;
+      font-size: 15px;
+    }
+    input { flex: 1; min-width: 200px; }
+    .filters {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+    button {
+      padding: 10px 16px;
+      border: 1px solid #34425e;
+      border-radius: 20px;
+      background: #17243a;
+      color: white;
+      cursor: pointer;
+    }
+    button.active, button:hover {
+      background: #087fa8;
+      border-color: #087fa8;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #151f34;
+      border: 1px solid #293955;
+      border-radius: 13px;
+      padding: 12px;
+      text-align: center;
+    }
+    .artwork {
+      height: 215px;
+      border-radius: 9px;
+      background: linear-gradient(145deg, #174b72, #202044, #111827);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      color: #bdefff;
+      font-weight: bold;
+    }
+    .card h3 { margin: 13px 0 5px; }
+    .card p { color: #aab6cc; margin: 5px; font-size: 13px; }
+    footer {
+      padding: 25px;
+      text-align: center;
+      color: #8996ad;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚽ eFootball Player Hub</h1>
+    <p>Explore eFootball player cards in one place.</p>
+  </header>
+
+  <main>
+    <h2>Player Card Database</h2>
+
+    <div class="search">
+      <input id="search" placeholder="Search player name...">
+      <select id="category">
+        <option value="All">All Categories</option>
+        <option value="Epic">Epic</option>
+        <option value="Big Time">Big Time</option>
+        <option value="POTW">POTW</option>
+        <option value="Show Time">Show Time</option>
+        <option value="Highlight">Highlight</option>
+      </select>
+    </div>
+
+    <div class="filters">
+      <button class="active" data-filter="All">All</button>
+      <button data-filter="Epic">Epic</button>
+      <button data-filter="Big Time">Big Time</button>
+      <button data-filter="POTW">POTW</button>
+      <button data-filter="Show Time">Show Time</button>
+      <button data-filter="Highlight">Highlight</button>
+    </div>
+
+    <div class="grid" id="players"></div>
+  </main>
+
+  <footer>
+    eFootball Player Hub · Player card database
+  </footer>
+
+  <script>
+    const players = [
+      { name: "Lionel Messi", category: "Epic", rating: "Example" },
+      { name: "Cristiano Ronaldo", category: "Big Time", rating: "Example" },
+      { name: "Pelé", category: "Epic", rating: "Example" },
+      { name: "Kylian Mbappé", category: "POTW", rating: "Example" },
+      { name: "Neymar Jr", category: "Show Time", rating: "Example" },
+      { name: "Jude Bellingham", category: "Highlight", rating: "Example" }
+    ];
+
+    let activeFilter = "All";
+
+    function displayPlayers() {
+      const search = document.getElementById("search").value.toLowerCase();
+      const category = document.getElementById("category").value;
+      const filter = activeFilter !== "All" ? activeFilter : category;
+
+      const filtered = players.filter(player =>
+        player.name.toLowerCase().includes(search) &&
+        (filter === "All" || player.category === filter)
+      );
+
+      document.getElementById("players").innerHTML =
+        filtered.length ? filtered.map(player => `
+          <div class="card">
+            <div class="artwork">PLAYER CARD ARTWORK</div>
+            <h3>${player.name}</h3>
+            <p>${player.category}</p>
+            <p>${player.rating}</p>
+          </div>
+        `).join("") : "<p>No players found.</p>";
+    }
+
+    document.getElementById("search").addEventListener("input", displayPlayers);
+    document.getElementById("category").addEventListener("change", () => {
+      activeFilter = "All";
+      document.querySelectorAll(".filters button").forEach(b =>
+        b.classList.toggle("active", b.dataset.filter === "All")
+      );
+      displayPlayers();
+    });
+
+    document.querySelectorAll(".filters button").forEach(button => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        document.getElementById("category").value = "All";
+        document.querySelectorAll(".filters button").forEach(b =>
+          b.classList.toggle("active", b === button)
+        );
+        displayPlayers();
+      });
+    });
+
+    displayPlayers();
+  </script>
+</body>
+</html>
