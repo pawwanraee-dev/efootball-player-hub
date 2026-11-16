@@ -39,21 +39,25 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;color:var
 <footer>eFootball Player Hub • Fan-made player database concept. Not affiliated with or endorsed by Konami.</footer>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalName"><div class="modal-box"><button class="close" id="close">✕</button><h2 id="modalName">Player</h2><div class="modal-sub" id="modalSub"></div><div class="detail-grid" id="detailGrid"></div><p class="note">Gerrard’s card image, 106 OVR and CMF position are from the card you uploaded. Other player attributes have not been added yet.</p></div></div>
 <script>
-const players=[
-{name:"Steven Gerrard",ovr:106,pos:"CMF",type:"Card",club:"Not added",style:"Not added",image:"Steven%20Gerrard%20Neon%20Football%20Card%20(1).png",stats:{}},
-{name:"Lionel Messi",ovr:103,pos:"RWF",type:"Big Time",club:"Argentina",style:"Creative Playmaker",stats:{Speed:82,Shooting:95,Passing:94,Dribbling:99,Defending:38,Physical:68}},
-{name:"Cristiano Ronaldo",ovr:102,pos:"CF",type:"Epic",club:"Portugal",style:"Goal Poacher",stats:{Speed:88,Shooting:98,Passing:82,Dribbling:89,Defending:42,Physical:92}},
-{name:"Kylian Mbappé",ovr:101,pos:"CF",type:"Show Time",club:"France",style:"Goal Poacher",stats:{Speed:99,Shooting:91,Passing:83,Dribbling:96,Defending:38,Physical:82}},
-{name:"Neymar Jr",ovr:100,pos:"LWF",type:"Epic",club:"Brazil",style:"Creative Playmaker",stats:{Speed:91,Shooting:88,Passing:90,Dribbling:98,Defending:40,Physical:72}},
-{name:"Jude Bellingham",ovr:100,pos:"AMF",type:"POTW",club:"England",style:"Hole Player",stats:{Speed:86,Shooting:87,Passing:88,Dribbling:89,Defending:78,Physical:86}},
-{name:"Erling Haaland",ovr:101,pos:"CF",type:"Highlight",club:"Norway",style:"Goal Poacher",stats:{Speed:93,Shooting:97,Passing:75,Dribbling:83,Defending:40,Physical:95}},
-{name:"Kevin De Bruyne",ovr:100,pos:"AMF",type:"POTW",club:"Belgium",style:"Creative Playmaker",stats:{Speed:78,Shooting:88,Passing:99,Dribbling:89,Defending:62,Physical:78}}
-];
+let players=[];
 let active="All";
 const root=document.getElementById("players"),search=document.getElementById("search"),empty=document.getElementById("empty");
-function render(){const q=search.value.toLowerCase().trim();const list=players.filter(p=>(active==="All"||p.type===active)&&(p.name.toLowerCase().includes(q)||p.club.toLowerCase().includes(q)||p.pos.toLowerCase().includes(q)));root.innerHTML=list.map((p)=>`<article class="player" data-name="${p.name}"><div class="card-art ${p.image?"has-image":""}">${p.image?`<img src="${p.image}" alt="${p.name} eFootball card">`:`<div class="rating">${p.ovr}</div><div class="position">${p.pos}</div><div class="type">${p.type.toUpperCase()}</div>`}</div><h3>${p.name}</h3><p class="meta">${p.club} • ${p.style}</p><div class="tags"><span class="tag">${p.ovr} OVR • ${p.pos}</span><span class="view">VIEW DETAILS →</span></div></article>`).join("");document.getElementById("totalCount").textContent=players.length;empty.style.display=list.length?"none":"block";document.querySelectorAll(".player").forEach(el=>el.addEventListener("click",()=>openPlayer(players.find(p=>p.name===el.dataset.name))));}
-function openPlayer(p){document.getElementById("modalName").textContent=p.name;document.getElementById("modalSub").textContent=`${p.ovr} OVR • ${p.pos} • ${p.type}`;document.getElementById("detailGrid").innerHTML=Object.entries(p.stats).length?Object.entries(p.stats).map(([k,v])=>`<div class="detail"><span>${k}</span><b>${v}</b></div>`).join(""):`<div class="detail" style="grid-column:1/-1"><span>Player attributes</span><b>Not added yet</b></div>`;document.getElementById("modal").classList.add("show")}
-document.getElementById("close").onclick=()=>document.getElementById("modal").classList.remove("show");document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("show")});search.addEventListener("input",render);document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{active=b.dataset.type;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));render();
+function render(){const q=search.value.toLowerCase().trim();const list=players.filter(p=>(active==="All"||p.type===active)&&(p.name.toLowerCase().includes(q)||p.club.toLowerCase().includes(q)||p.pos.toLowerCase().includes(q)));root.innerHTML=list.map((p)=>\`<article class="player" data-name="${p.name}"><div class="card-art ${p.image?"has-image":""}">${p.image?\`<img src="${p.image}" alt="${p.name} eFootball card">\`:\`<div class="rating">${p.ovr}</div><div class="position">${p.pos}</div><div class="type">${p.type.toUpperCase()}</div>\`}</div><h3>${p.name}</h3><p class="meta">${p.club} • ${p.style}</p><div class="tags"><span class="tag">${p.ovr} OVR • ${p.pos}</span><span class="view">VIEW DETAILS →</span></div></article>\`).join("");document.getElementById("totalCount").textContent=players.length;empty.style.display=list.length?"none":"block";document.querySelectorAll(".player").forEach(el=>el.addEventListener("click",()=>openPlayer(players.find(p=>p.name===el.dataset.name))));}
+function openPlayer(p){document.getElementById("modalName").textContent=p.name;document.getElementById("modalSub").textContent=\`${p.ovr} OVR • ${p.pos} • ${p.type}\`;document.getElementById("detailGrid").innerHTML=Object.entries(p.stats).length?Object.entries(p.stats).map(([k,v])=>\`<div class="detail"><span>${k}</span><b>${v}</b></div>\`).join(""):\`<div class="detail" style="grid-column:1/-1"><span>Player attributes</span><b>Not added yet</b></div>\`;document.getElementById("modal").classList.add("show")}
+document.getElementById("close").onclick=()=>document.getElementById("modal").classList.remove("show");document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("show")});search.addEventListener("input",render);document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{active=b.dataset.type;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));async function loadPlayers(){
+  try{
+    const response=await fetch("./players.json",{cache:"no-store"});
+    if(!response.ok) throw new Error("Could not load players.json");
+    players=await response.json();
+    render();
+  }catch(error){
+    root.innerHTML='<p class="note">Player data could not be loaded. Please check that players.json is uploaded beside index.html.</p>';
+    document.getElementById("totalCount").textContent="0";
+    empty.style.display="none";
+    console.error(error);
+  }
+}
+loadPlayers();
 </script>
 </body>
 </html>
