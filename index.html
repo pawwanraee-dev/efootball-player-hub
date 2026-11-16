@@ -1,182 +1,59 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>eFootball Player Hub</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: #0b1020;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-    header {
-      padding: 25px 6%;
-      background: #121a2d;
-      border-bottom: 1px solid #27334c;
-    }
-    header h1 { margin: 0; color: #55d6ff; }
-    header p { color: #aab6cc; }
-    main { padding: 30px 6%; }
-    .search {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
-    input, select {
-      padding: 13px;
-      border-radius: 8px;
-      border: 1px solid #34425e;
-      background: #151f34;
-      color: white;
-      font-size: 15px;
-    }
-    input { flex: 1; min-width: 200px; }
-    .filters {
-      display: flex;
-      gap: 9px;
-      flex-wrap: wrap;
-      margin-bottom: 25px;
-    }
-    button {
-      padding: 10px 16px;
-      border: 1px solid #34425e;
-      border-radius: 20px;
-      background: #17243a;
-      color: white;
-      cursor: pointer;
-    }
-    button.active, button:hover {
-      background: #087fa8;
-      border-color: #087fa8;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: #151f34;
-      border: 1px solid #293955;
-      border-radius: 13px;
-      padding: 12px;
-      text-align: center;
-    }
-    .artwork {
-      height: 215px;
-      border-radius: 9px;
-      background: linear-gradient(145deg, #174b72, #202044, #111827);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 15px;
-      color: #bdefff;
-      font-weight: bold;
-    }
-    .card h3 { margin: 13px 0 5px; }
-    .card p { color: #aab6cc; margin: 5px; font-size: 13px; }
-    footer {
-      padding: 25px;
-      text-align: center;
-      color: #8996ad;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d18">
+<title>eFootball Player Hub</title>
+<style>
+:root{--bg:#080d18;--panel:#111a2b;--panel2:#172238;--line:#263650;--text:#f4f7ff;--muted:#9aa9c2;--gold:#f6c85f;--blue:#56a8ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1b3152 0,transparent 48%),var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#080d18eF;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.nav{max-width:1200px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-weight:900;letter-spacing:.5px;font-size:20px}.brand span{color:var(--gold)}.nav small{color:var(--muted)}
+main{max-width:1200px;margin:auto;padding:30px 22px 60px}.hero{padding:28px;border:1px solid #314665;border-radius:22px;background:linear-gradient(120deg,#172b48,#101a2c 60%,#19243a);box-shadow:0 18px 50px #0005}.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(28px,5vw,48px);margin:10px 0}.hero p{color:#b6c4d9;max-width:650px;line-height:1.6;margin:0}.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.stat{background:#ffffff0c;border:1px solid #ffffff18;border-radius:12px;padding:10px 15px}.stat b{display:block;font-size:18px}.stat span{font-size:11px;color:var(--muted)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:30px 0 14px}.section-head h2{margin:0;font-size:22px}.section-head p{color:var(--muted);font-size:13px;margin:5px 0 0}
+.controls{display:grid;grid-template-columns:1fr auto;gap:12px;margin:16px 0}.search{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:white;font-size:15px;outline:none}.search:focus{border-color:var(--blue)}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.filter{border:1px solid var(--line);background:var(--panel);color:#c3cee0;border-radius:999px;padding:9px 14px;cursor:pointer;font-weight:700;font-size:12px}.filter.active,.filter:hover{background:var(--gold);border-color:var(--gold);color:#161616}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.player{border:1px solid var(--line);background:linear-gradient(180deg,#17243a,#101827);border-radius:16px;padding:12px;cursor:pointer;transition:.2s;min-width:0}.player:hover{transform:translateY(-4px);border-color:#6989b8;box-shadow:0 14px 30px #0006}.card-art{height:190px;border-radius:12px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 35%,#7387a7 0,#344965 30%,#18263d 70%);border:1px solid #8293ad55}.card-art:before{content:"";position:absolute;width:116px;height:150px;bottom:-22px;border-radius:60px 60px 12px 12px;background:linear-gradient(145deg,#d7e0ec,#62758e 55%,#29374c);opacity:.7;clip-path:polygon(30% 0,70% 0,100% 30%,83% 100%,17% 100%,0 30%)}.card-art:after{content:"PLAYER IMAGE";position:absolute;bottom:9px;font-size:9px;letter-spacing:2px;color:#ffffffa8;font-weight:800}.rating{position:absolute;top:10px;left:10px;font-size:24px;font-weight:900;color:var(--gold);text-shadow:0 2px 8px #000}.position{position:absolute;top:40px;left:12px;font-size:10px;font-weight:800}.type{position:absolute;top:10px;right:10px;background:#080d18b8;padding:5px 8px;border-radius:6px;font-size:9px;font-weight:800}.player h3{margin:12px 2px 4px;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{color:var(--muted);font-size:11px;margin:0 2px 10px}.tags{display:flex;justify-content:space-between;align-items:center;gap:6px}.tag{font-size:10px;color:#c5d4e9;background:#ffffff0c;padding:5px 7px;border-radius:6px}.view{color:var(--blue);font-size:11px;font-weight:800}
+.empty{display:none;text-align:center;padding:40px;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;color:var(--muted);font-size:12px}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:10;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modal-box{width:min(540px,100%);background:#111a2b;border:1px solid #405675;border-radius:18px;padding:22px;position:relative}.close{position:absolute;right:14px;top:12px;border:0;background:#ffffff12;color:white;border-radius:8px;padding:7px 10px;cursor:pointer}.modal-box h2{margin:0 40px 5px 0}.modal-sub{color:var(--muted);font-size:13px}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:18px 0}.detail{background:#ffffff0b;border:1px solid var(--line);border-radius:10px;padding:11px}.detail span{display:block;color:var(--muted);font-size:11px}.detail b{font-size:16px}.note{font-size:12px;color:#b5c3d8;line-height:1.5}
+@media(max-width:850px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:620px){main{padding:20px 14px 45px}.nav{padding:13px 15px}.controls{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card-art{height:165px}.hero{padding:22px}.section-head{align-items:start;flex-direction:column}}@media(max-width:360px){.grid{grid-template-columns:1fr 1fr}.card-art{height:145px}}
+</style>
 </head>
 <body>
-  <header>
-    <h1>⚽ eFootball Player Hub</h1>
-    <p>Explore eFootball player cards in one place.</p>
-  </header>
-
-  <main>
-    <h2>Player Card Database</h2>
-
-    <div class="search">
-      <input id="search" placeholder="Search player name...">
-      <select id="category">
-        <option value="All">All Categories</option>
-        <option value="Epic">Epic</option>
-        <option value="Big Time">Big Time</option>
-        <option value="POTW">POTW</option>
-        <option value="Show Time">Show Time</option>
-        <option value="Highlight">Highlight</option>
-      </select>
-    </div>
-
-    <div class="filters">
-      <button class="active" data-filter="All">All</button>
-      <button data-filter="Epic">Epic</button>
-      <button data-filter="Big Time">Big Time</button>
-      <button data-filter="POTW">POTW</button>
-      <button data-filter="Show Time">Show Time</button>
-      <button data-filter="Highlight">Highlight</button>
-    </div>
-
-    <div class="grid" id="players"></div>
-  </main>
-
-  <footer>
-    eFootball Player Hub · Player card database
-  </footer>
-
-  <script>
-    const players = [
-      { name: "Lionel Messi", category: "Epic", rating: "Example" },
-      { name: "Cristiano Ronaldo", category: "Big Time", rating: "Example" },
-      { name: "Pelé", category: "Epic", rating: "Example" },
-      { name: "Kylian Mbappé", category: "POTW", rating: "Example" },
-      { name: "Neymar Jr", category: "Show Time", rating: "Example" },
-      { name: "Jude Bellingham", category: "Highlight", rating: "Example" }
-    ];
-
-    let activeFilter = "All";
-
-    function displayPlayers() {
-      const search = document.getElementById("search").value.toLowerCase();
-      const category = document.getElementById("category").value;
-      const filter = activeFilter !== "All" ? activeFilter : category;
-
-      const filtered = players.filter(player =>
-        player.name.toLowerCase().includes(search) &&
-        (filter === "All" || player.category === filter)
-      );
-
-      document.getElementById("players").innerHTML =
-        filtered.length ? filtered.map(player => `
-          <div class="card">
-            <div class="artwork">PLAYER CARD ARTWORK</div>
-            <h3>${player.name}</h3>
-            <p>${player.category}</p>
-            <p>${player.rating}</p>
-          </div>
-        `).join("") : "<p>No players found.</p>";
-    }
-
-    document.getElementById("search").addEventListener("input", displayPlayers);
-    document.getElementById("category").addEventListener("change", () => {
-      activeFilter = "All";
-      document.querySelectorAll(".filters button").forEach(b =>
-        b.classList.toggle("active", b.dataset.filter === "All")
-      );
-      displayPlayers();
-    });
-
-    document.querySelectorAll(".filters button").forEach(button => {
-      button.addEventListener("click", () => {
-        activeFilter = button.dataset.filter;
-        document.getElementById("category").value = "All";
-        document.querySelectorAll(".filters button").forEach(b =>
-          b.classList.toggle("active", b === button)
-        );
-        displayPlayers();
-      });
-    });
-
-    displayPlayers();
-  </script>
+<header><div class="nav"><div class="brand">eFOOTBALL <span>PLAYER HUB</span></div><small>PLAYER DATABASE • CARD COLLECTION</small></div></header>
+<main>
+<section class="hero">
+<div class="eyebrow">Your eFootball player database</div>
+<h1>Find your next <span style="color:var(--gold)">game changer.</span></h1>
+<p>Explore player cards, ratings and attributes. Search the collection and open a player to see more details. This first version uses demo entries while real card data and artwork are being added.</p>
+<div class="stats"><div class="stat"><b id="totalCount">8</b><span>DEMO PLAYERS</span></div><div class="stat"><b>6</b><span>CARD CATEGORIES</span></div><div class="stat"><b>v1.0</b><span>PLAYER HUB</span></div></div>
+</section>
+<div class="section-head"><div><h2>Player collection</h2><p>Search by player name or filter by card type.</p></div></div>
+<div class="controls"><input id="search" class="search" placeholder="🔎  Search players (e.g. Messi, Ronaldo, Mbappé)..." aria-label="Search players"></div>
+<div class="filters" id="filters">
+<button class="filter active" data-type="All">All cards</button><button class="filter" data-type="Epic">Epic</button><button class="filter" data-type="Big Time">Big Time</button><button class="filter" data-type="POTW">POTW</button><button class="filter" data-type="Show Time">Show Time</button><button class="filter" data-type="Highlight">Highlight</button>
+</div>
+<div class="grid" id="players"></div><div class="empty" id="empty">No players found. Try another name or category.</div>
+</main>
+<footer>eFootball Player Hub • Fan-made player database concept. Not affiliated with or endorsed by Konami.</footer>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalName"><div class="modal-box"><button class="close" id="close">✕</button><h2 id="modalName">Player</h2><div class="modal-sub" id="modalSub"></div><div class="detail-grid" id="detailGrid"></div><p class="note">Demo information for layout preview. Player ratings, attributes and official card artwork will be connected after a reliable data source is confirmed.</p></div></div>
+<script>
+const players=[
+{name:"Lionel Messi",ovr:103,pos:"RWF",type:"Big Time",club:"Argentina",style:"Creative Playmaker",stats:{Speed:82,Shooting:95,Passing:94,Dribbling:99,Defending:38,Physical:68}},
+{name:"Cristiano Ronaldo",ovr:102,pos:"CF",type:"Epic",club:"Portugal",style:"Goal Poacher",stats:{Speed:88,Shooting:98,Passing:82,Dribbling:89,Defending:42,Physical:92}},
+{name:"Kylian Mbappé",ovr:101,pos:"CF",type:"Show Time",club:"France",style:"Goal Poacher",stats:{Speed:99,Shooting:91,Passing:83,Dribbling:96,Defending:38,Physical:82}},
+{name:"Neymar Jr",ovr:100,pos:"LWF",type:"Epic",club:"Brazil",style:"Creative Playmaker",stats:{Speed:91,Shooting:88,Passing:90,Dribbling:98,Defending:40,Physical:72}},
+{name:"Jude Bellingham",ovr:100,pos:"AMF",type:"POTW",club:"England",style:"Hole Player",stats:{Speed:86,Shooting:87,Passing:88,Dribbling:89,Defending:78,Physical:86}},
+{name:"Erling Haaland",ovr:101,pos:"CF",type:"Highlight",club:"Norway",style:"Goal Poacher",stats:{Speed:93,Shooting:97,Passing:75,Dribbling:83,Defending:40,Physical:95}},
+{name:"Kevin De Bruyne",ovr:100,pos:"AMF",type:"POTW",club:"Belgium",style:"Creative Playmaker",stats:{Speed:78,Shooting:88,Passing:99,Dribbling:89,Defending:62,Physical:78}},
+{name:"Virgil van Dijk",ovr:99,pos:"CB",type:"Epic",club:"Netherlands",style:"Build Up",stats:{Speed:82,Shooting:60,Passing:82,Dribbling:75,Defending:99,Physical:96}}
+];
+let active="All";
+const root=document.getElementById("players"),search=document.getElementById("search"),empty=document.getElementById("empty");
+function render(){const q=search.value.toLowerCase().trim();const list=players.filter(p=>(active==="All"||p.type===active)&&(p.name.toLowerCase().includes(q)||p.club.toLowerCase().includes(q)||p.pos.toLowerCase().includes(q)));root.innerHTML=list.map((p)=>`<article class="player" data-name="${p.name}"><div class="card-art"><div class="rating">${p.ovr}</div><div class="position">${p.pos}</div><div class="type">${p.type.toUpperCase()}</div></div><h3>${p.name}</h3><p class="meta">${p.club} • ${p.style}</p><div class="tags"><span class="tag">${p.pos}</span><span class="view">VIEW DETAILS →</span></div></article>`).join("");document.getElementById("totalCount").textContent=players.length;empty.style.display=list.length?"none":"block";document.querySelectorAll(".player").forEach(el=>el.addEventListener("click",()=>openPlayer(players.find(p=>p.name===el.dataset.name))));}
+function openPlayer(p){document.getElementById("modalName").textContent=p.name;document.getElementById("modalSub").textContent=`${p.ovr} OVR • ${p.pos} • ${p.type} • ${p.club} • ${p.style}`;document.getElementById("detailGrid").innerHTML=Object.entries(p.stats).map(([k,v])=>`<div class="detail"><span>${k}</span><b>${v}</b></div>`).join("");document.getElementById("modal").classList.add("show")}
+document.getElementById("close").onclick=()=>document.getElementById("modal").classList.remove("show");document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("show")});search.addEventListener("input",render);document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{active=b.dataset.type;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));render();
+</script>
 </body>
 </html>
